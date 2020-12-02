@@ -1,4 +1,5 @@
 from iyifilm import app, bcrypt, db
+from iyifilm.models import User, Film, Serializer
 
 from flask import request, jsonify
 
@@ -15,27 +16,25 @@ films = [
     {"id": 2,
      "title": "Trainspotting"},
 ]
-
-# Örneğin http://127.0.0.1:5000/films/all adresi bütün
+  
+# Örneğin http://127.0.0.1:5000/film/all adresi bütün
 # filmleri döndürecek.
-@app.route('/films/all', methods=['GET'])
+@app.route('/film/all', methods=['GET', 'POST'])
 def film_all():
-    return jsonify(films)
+    films = Film.query.all()
+    return jsonify(Serializer.serialize_list(films))
 
 # Bu API'a örneğin şu şekilde ulaşılacak:
-# http://127.0.0.1:5000/films/?id=2
-@app.route('/films/', methods=['GET'])
+# http://127.0.0.1:5000/film/?id=2
+@app.route('/film/', methods=['GET', 'POST'])
 def film_by_id():
     if "id" in request.args:
         id = int(request.args["id"])
     else:
         return "Error: No id field provided. Please specify an id."
 
-    results = []
-
-    global films
-    for film in films:
-        if film["id"] == id:
-            results.append(film)
-
-    return jsonify(results)
+    film = Film.query.filter_by(id=id).first()
+    print(film)
+    if film:
+        return jsonify(film.serialize())
+    return jsonify([])
