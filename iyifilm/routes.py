@@ -38,3 +38,7 @@ def film_by_id():
     if film:
         return jsonify(film.serialize())
     return jsonify([])
+
+@app.route('/test', methods=['GET', 'POST'])
+def test_api():
+    return {"name":"Hans Zimmer"}

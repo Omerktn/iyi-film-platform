@@ -1,3 +1,17 @@
+Önce:
+
+### `npm install`
+
+sonra çalıştırmak için:
+
+### `npm start`
+
+
+Flask'ı da çalıştırmayı unutmayın.
+
+
+# Aşağıda yazan her şey otomatik.
+
 # Getting Started with Create React App
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
