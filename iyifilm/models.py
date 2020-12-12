@@ -22,7 +22,7 @@ class Film(db.Model):
     filmtype = db.Column(db.String, default="Movie") # veya "Series"
     season = db.Column(db.Integer, nullable=True)
     year = db.Column(db.Integer, default=1970)
-    image_file = db.Column(db.String(20), nullable=False,
+    image_file = db.Column(db.String(50), nullable=False,
                            default='default.jpg')
     vote_count = db.Column(db.Integer, default=0)
     vote_sum = db.Column(db.Integer, default=0)

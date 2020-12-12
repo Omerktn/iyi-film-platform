@@ -22,7 +22,7 @@ const LastFilms = ({ last_films }) => {
             <Row>
 
               <Col className="col-md-3" style={{ display: 'flex', justifyContent: 'center' }}>
-                <Card.Img variant="left" src="../../placeholder_poster.png" />
+                <Card.Img variant="left" src = {film.image_file} />
               </Col>
 
               <Col style={{ display: 'flex', justifyContent: 'left' }}>
@@ -30,12 +30,12 @@ const LastFilms = ({ last_films }) => {
                 <Card.Body>
                   <Card.Title style={{ color: "white", display: "inline-block", fontWeight: "bold", fontSize: "1.4rem" }}> {film.name} </Card.Title>
                   <Card.Text style={{ display: "inline-block", float: "right", fontWeight: "bold", fontSize: "1.4rem" }}>
-                    <Badge variant="danger" style={{ color: "#FFFFFF" }}>
+                    <Badge variant="danger" style={{ color: "#FFFFFF", backgroundColor: setBorderColor((film.vote_sum / film.vote_count).toFixed(1)) }}>
                       {(film.vote_sum / film.vote_count).toFixed(1)}
                     </Badge>{' '}
                   </Card.Text>
 
-                  <Card.Text > {film.filmtype} </Card.Text>
+                  <Card.Text > {setType(film.filmtype)} </Card.Text>
                   <div style={{ display: "flex" }}>
                     <Button variant="primary" style={{ right: "1rem", position: "absolute", bottom: "0" }} className="btn btn-light">Değerlendirmeler</Button>
                   </div>
@@ -52,6 +52,28 @@ const LastFilms = ({ last_films }) => {
     </div >
   )
 };
+
+function setBorderColor(rating){
+  if (rating > 4){
+    return "SeaGreen";
+  } else if (rating > 3){
+      return "LimeGreen";
+  } else if (rating > 2){
+      return "Gold";
+  } else if (rating>1) {
+      return "DarkOrange";
+  } else {
+    return "FireBrick";
+  }
+}
+
+function setType(tip){
+  if (tip == "Movie"){
+    return "Film";
+  } else {
+    return "Dizi";
+  }
+}
 
 /*
 <Card style={{ width: '18rem' }}>
