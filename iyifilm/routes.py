@@ -6,17 +6,8 @@ from flask import request, jsonify
 @app.route("/", methods=['GET', 'POST'])
 @app.route("/home", methods=['GET', 'POST'])
 def home():
-    return "Hello, this is IYI Film"
+    return "Hello, this is IYI Film's API"
 
-films = [
-    {"id": 0,
-     "title": "Limonata"},
-    {"id": 1,
-     "title": "Ölümlü Dünya"},
-    {"id": 2,
-     "title": "Trainspotting"},
-]
-  
 # Örneğin http://127.0.0.1:5000/film/all adresi bütün
 # filmleri döndürecek.
 @app.route('/film/all', methods=['GET', 'POST'])
