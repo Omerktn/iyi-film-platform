@@ -9,14 +9,16 @@ const NavigationBar = () => {
   return (
     <div style={{ color: "white" }}>
       <Navbar bg="dark" variant="dark">
-        <Navbar.Brand href="#home">İYİ FİLM</Navbar.Brand>
+        <Navbar.Brand href="#home" style={{fontFamily: "monospace", fontSize: "24px", color: "steelblue"}}>İYİ FİLM</Navbar.Brand>
         <Nav className="mr-auto">
           <Nav.Link href="/">Anasayfa</Nav.Link>
           <Nav.Link href="/allfilms">Tüm Değerlendirmeler</Nav.Link>
         </Nav>
         <Nav className="mr-right">
-          <Nav.Link href="/register">Kayıt Ol</Nav.Link>
-          <Nav.Link href="/login">Giriş Yap</Nav.Link>
+          <Nav.Link href="/register" style={{margin: "5px"}}>Kayıt Ol</Nav.Link>
+          <Nav.Link href="/login" style={{backgroundColor: "steelblue", 
+          boxShadow: "0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19)", 
+          borderRadius: "7px",margin: "5px", color: "white"}}>Giriş Yap</Nav.Link>
         </Nav>
 
         <Form inline>

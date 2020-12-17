@@ -9,42 +9,44 @@ import Badge from "react-bootstrap/Badge";
 const LastFilms = ({ last_films }) => {
   return (
     <div style={{ color: "white" }}>
-      <div>
-        <h4 style={{ display: "inline-block" }}>Güncel Film ve Diziler</h4>
-        <Badge variant="primary" style={{ margin: "10px", float: "10px" }}>Trend</Badge>{' '}
+      <div style={{display: "block"}}>
+        <h4 style={{ textAlign: "center"}}>Güncel Film ve Diziler 
+        <Badge variant="primary" style={{display: "inline", margin: "10px", float: "10px" }}>Trend</Badge>{' '}</h4>
       </div>
 
       {last_films.map((film) => (
-        <div key={film.id} style={{ margin: "10px" }}>
+        <div key={film.id} style={{ margin: "10px",float: "right"  }}>
 
-          <Card style={{ backgroundColor: "#282828", width: "50rem", padding: "10px" }}>
-            <Row>
+          <Card style={{backgroundColor:"#282828", width: "17rem", height: "35rem", margin: "35px"}}>
+            
 
-              <Col className="col-md-3" style={{ display: 'flex', justifyContent: 'center' }}>
-                <Card.Img variant="left" src = {film.image_file} />
-              </Col>
+              <Row className="row-md-3" style={{display: "block"}}>
+                <Card.Img  src = {film.image_file} style={{width: "17rem", height: "25rem",
+              boxShadow: "2px 2px 2px darkslategray", borderBottom: "solid steelblue 7px", borderRight: "solid steelblue 7px", borderRadius:"4px" }} />
+              </Row>
 
-              <Col style={{ display: 'flex', justifyContent: 'left' }}>
+              <Row style={{display: "block" }}>
 
                 <Card.Body>
-                  <a href={"/film/" + film.id}>
-                  <Card.Title style={{ color: "white", display: "inline-block", fontWeight: "bold", fontSize: "1.4rem" }}> {film.name} </Card.Title>
+                  <a  href={"/film/" + film.id}>
+                  <Card.Title style={{ color: "white", fontWeight: "bold", fontSize: "1.4rem"}}> {film.name} </Card.Title>
                   </a>
-                  <Card.Text style={{ display: "inline-block", float: "right", fontWeight: "bold", fontSize: "1.4rem" }}>
+                  <Card.Text style={{}}> {setType(film.filmtype)} </Card.Text>
+                  
+                  <div style={{ float:"right" }}>
+                  <Card.Text style={{display: "inline", fontWeight: "bold", fontSize: "1.4rem", textAlign: "right" }}>
                     <Badge style={{ color: "#FFFFFF", backgroundColor: setBorderColor((film.vote_sum / film.vote_count).toFixed(1)) }}>
                       {(film.vote_sum / film.vote_count).toFixed(1)}
                     </Badge>{' '}
                   </Card.Text>
-
-                  <Card.Text > {setType(film.filmtype)} </Card.Text>
-                  <div style={{ display: "flex" }}>
-                    <Button href={"/film/" + film.id} variant="primary" style={{ right: "1rem", position: "absolute", bottom: "0" }} className="btn btn-light">Değerlendirmeler</Button>
+                    <a href={"/film/" + film.id}><img src="baseline_mode_comment_white_24dp.png"/></a>
+                    
                   </div>
 
                 </Card.Body>
 
-              </Col>
-            </Row>
+              </Row>
+            
           </Card>
 
         </div>
@@ -53,6 +55,8 @@ const LastFilms = ({ last_films }) => {
     </div >
   )
 };
+
+
 
 function setBorderColor(rating){
   if (rating > 4){
@@ -87,6 +91,7 @@ function setType(tip){
             </Card.Text>
           <Button variant="primary">Go somewhere</Button>
         </Card.Body>
+        
 */
 
 export default LastFilms

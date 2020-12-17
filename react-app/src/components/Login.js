@@ -5,10 +5,10 @@ import Card from "react-bootstrap/Card";
 
 const Login = () => {
   return (
-    <div style={{ color: "white" }}>
-      <Card border="light" style={{ backgroundColor: "transparent" }}>
+    <div style={{ }}>
+      <Card style={{ backgroundColor: "#282828", boxShadow: "2px 2px 2px darkslategray", borderBottom: "solid steelblue 7px", borderRight: "solid steelblue 7px", borderRadius:"4px" }}>
         <Card.Body>
-          <Form>
+          <Form style= {{color: "white", fontweight: "bold"}}>
             <Form.Group controlId="formBasicEmail">
               <Form.Label>E-Posta Adresi</Form.Label>
               <Form.Control type="email" placeholder="" />

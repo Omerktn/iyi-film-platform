@@ -8,8 +8,9 @@ import Card from "react-bootstrap/Card";
 const Register = () => {
   return (
     <div style={{ color: "white" }}>
-      <Card border="light" style={{ backgroundColor: "transparent" }}>
-        <Card.Body>
+      <Card style={{ backgroundColor: "#282828",
+      boxShadow: "2px 2px 2px darkslategray", borderBottom: "solid steelblue 7px", borderRight: "solid steelblue 7px", borderRadius:"4px" }}>
+        <Card.Body style={{fontWeight: "bold"}}>
           <Form>
             <Form.Group controlId="formFirstLastName">
               <Row>
@@ -27,7 +28,7 @@ const Register = () => {
             <Form.Group controlId="formBasicEmail">
               <Form.Label>E-Posta Adresi</Form.Label>
               <Form.Control type="email" placeholder="isim@ornek.com" />
-              <Form.Text className="text-muted">
+              <Form.Text style={{fontWeight: "bold", color: "black"}}>
                 E-Posta adresinizi kimseyle paylaşmayacağız.
               </Form.Text>
             </Form.Group>

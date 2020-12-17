@@ -21,7 +21,8 @@ const AllFilms = ({ all_films }) => {
             <Row>
 
               <Col className="col-md-3" style={{ display: 'flex', justifyContent: 'center' }}>
-                <Card.Img variant="left" src = {film.image_file} />
+              <Card.Img  src = {film.image_file} style={{width: "10rem", height: "15rem",
+              boxShadow: "2px 2px 2px darkslategray", borderBottom: "solid steelblue 7px", borderRight: "solid steelblue 7px", borderRadius:"4px", margin: "10px" }} />
               </Col>
 
               <Col style={{ display: 'flex', justifyContent: 'left' }}>
