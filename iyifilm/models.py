@@ -38,6 +38,10 @@ class Review(db.Model):
     text = db.Column(db.String(500), nullable=True, default="")
     rate = db.Column(db.Integer, nullable=False, default=5) # 1-5 arasında
 
+    def serialize(self):
+        d = Serializer.serialize(self)
+        return d
+
 class User(db.Model, UserMixin):
     id = db.Column(db.Integer, primary_key=True)
     username = db.Column(db.String(20), unique=True, nullable=False)
