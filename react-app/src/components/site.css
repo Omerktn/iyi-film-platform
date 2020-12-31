@@ -1,0 +1,20 @@
+.yildiz{
+    border: none;
+    background-color:transparent;
+    text-align: center;
+    float:right;
+}
+.material-icons{
+    font-size: 30px;
+}
+
+.material-icons:hover{
+    text-shadow: steelblue 2px 2px 5px;
+}
+
+.filmPoster:hover{
+    border-top: solid steelblue 7px;
+    border-left:solid steelblue 7px;
+    transition: 0.2s;
+    opacity: 0.6;
+}

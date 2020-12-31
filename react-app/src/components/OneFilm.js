@@ -7,11 +7,49 @@ import Col from "react-bootstrap/Col";
 import Card from "react-bootstrap/Card";
 import Button from "react-bootstrap/Button";
 import Badge from "react-bootstrap/Badge";
+import "./site.css";
 
 class OneFilm extends Component {
   constructor(props) {
     super(props);
-    this.state = { film: {} };
+    this.state = { film: {} , color: ["gray","gray","gray","gray","gray"]};
+  }
+
+  changeColor1 = (e) => {
+    //burada veritabanında bu filmin vote-countu 1 artar
+    //votesum ise 5 artar
+    this.setState({
+      color: ["seagreen","seagreen","seagreen","seagreen","seagreen"]
+    })
+  }
+
+  changeColor2 = (e) => {
+    //burada veritabanında bu filmin vote-countu 1 artar
+    //votesum ise 4 artar
+    this.setState({
+      color: ["gray","limegreen","limegreen","limegreen","limegreen"]
+    })
+  }
+  changeColor3 = (e) => {
+    //burada veritabanında bu filmin vote-countu 1 artar
+    //votesum ise 3 artar
+    this.setState({
+      color: ["gray","gray","gold","gold","gold"]
+    })
+  }
+  changeColor4 = (e) => {
+    //burada veritabanında bu filmin vote-countu 1 artar
+    //votesum ise 2 artar
+    this.setState({
+      color: ["gray","gray","gray","darkorange","darkorange"]
+    })
+  }
+  changeColor5 = (e) => {
+    //burada veritabanında bu filmin vote-countu 1 artar
+    //votesum ise 1 artar
+    this.setState({
+      color: ["gray","gray","gray","gray","fireBrick"]
+    })
   }
 
   componentDidMount() {
@@ -23,6 +61,9 @@ class OneFilm extends Component {
       })
       .catch(console.log);
   }
+
+  
+
 
   render() {
     var film = this.state.film;
@@ -84,11 +125,28 @@ class OneFilm extends Component {
             </Col>
           </Row>
         </Card>
+        <div class="form-group">
+          <label for="yorum" style={{fontSize: "24px"}}>Yorum Yazın</label>
+          <textarea class="form-control" id="yorum" rows="3" style={{backgroundColor: "#282828", 
+          border: "none", boxShadow: "2px 2px 2px darkslategray", 
+          borderLeft: "solid steelblue 4px", borderRight: "solid steelblue 4px", borderRadius:"4px", color:"whitesmoke"}}></textarea>
+          <Button as="input" type="submit" value="Gönder" style={{backgroundColor: "steelblue", 
+          boxShadow: "2px 2px 5px gray", 
+          borderRadius: "7px",margin: "5px", color: "white", border: "none"}}/>
+          <button className="yildiz" onClick={this.changeColor1}><i style={{color:this.state.color[0]}} class="material-icons">grade</i></button> 
+          <button className="yildiz" onClick={this.changeColor2}><i style={{color:this.state.color[1]}}class="material-icons">grade</i></button> 
+          <button className="yildiz" onClick={this.changeColor3}><i style={{color:this.state.color[2]}} class="material-icons">grade</i></button> 
+          <button className="yildiz" onClick={this.changeColor4}><i style={{color:this.state.color[3]}} class="material-icons">grade</i></button> 
+          <button className="yildiz" onClick={this.changeColor5}><i style={{color:this.state.color[4]}} class="material-icons">grade</i></button> 
+         </div>
+         
 
       </div>
     );
   }
 }
+
+
 
 function setBorderColor(rating){
     if (rating > 4){

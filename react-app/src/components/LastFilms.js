@@ -5,6 +5,8 @@ import Button from "react-bootstrap/Button";
 import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
 import Badge from "react-bootstrap/Badge";
+import "./site.css";
+
 
 const LastFilms = ({ last_films }) => {
   return (
@@ -19,10 +21,11 @@ const LastFilms = ({ last_films }) => {
 
           <Card style={{backgroundColor:"#282828", width: "17rem", height: "35rem", margin: "35px"}}>
             
-
+              
               <Row className="row-md-3" style={{display: "block"}}>
-                <Card.Img  src = {film.image_file} style={{width: "17rem", height: "25rem",
+              <div ><Card.Img class="filmPoster" src = {film.image_file} style={{width: "17rem", height: "25rem",
               boxShadow: "2px 2px 2px darkslategray", borderBottom: "solid steelblue 7px", borderRight: "solid steelblue 7px", borderRadius:"4px" }} />
+              </div>
               </Row>
 
               <Row style={{display: "block" }}>
