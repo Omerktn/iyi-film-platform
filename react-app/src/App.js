@@ -2,29 +2,19 @@ import React, { Component } from "react";
 import { BrowserRouter as Router, Switch, Route, useParams} from "react-router-dom";
 import "./App.css";
 
+import {login} from "./auth"
+
 import LastFilms from "./components/LastFilms";
 import AllFilms from "./components/AllFilms";
 import OneFilm from "./components/OneFilm";
 import Register from "./components/Register";
 import Login from "./components/Login";
 
+
 import NavBar from "./components/NavBar";
 import Footer from "./components/Footer";
 
 class App extends Component {
-  state = {
-    films: [],
-  };
-
-  componentDidMount() {
-    fetch("film/all")
-      .then((res) => res.json())
-      .then((data) => {
-        this.setState({ films: data });
-        console.log(data);
-      })
-      .catch(console.log);
-  }
 
   render() {
     return (
@@ -69,7 +59,7 @@ class App extends Component {
                   padding: "20px",
                 }}
               >
-                <AllFilms all_films={this.state.films} />
+                <AllFilms />
               </div>
             </Route>
 
@@ -95,7 +85,7 @@ class App extends Component {
                   padding: "20px",
                 }}
               >
-                <LastFilms last_films={this.state.films} />
+                <LastFilms />
               </div>
             </Route>
           </Switch>

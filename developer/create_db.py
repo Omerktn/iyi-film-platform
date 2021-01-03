@@ -10,7 +10,7 @@ from iyifilm.models import *
 db.create_all()
 
 hashed_pw = bcrypt.generate_password_hash("123").decode("utf-8")
-user = User(username="admin", email="admin@iyifilm.com", password=hashed_pw)
+user = User(name="admin", surname="adminson", email="admin@iyifilm.com", password=hashed_pw, is_active=True)
 
 db.session.add(user)
 db.session.commit()

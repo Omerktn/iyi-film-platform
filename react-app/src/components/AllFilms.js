@@ -1,74 +1,139 @@
-import React from 'react'
-import 'bootstrap/dist/css/bootstrap.min.css';
+import React, { Component } from "react";
+import "bootstrap/dist/css/bootstrap.min.css";
 import Card from "react-bootstrap/Card";
 import Button from "react-bootstrap/Button";
 import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
 import Badge from "react-bootstrap/Badge";
 
-const AllFilms = ({ all_films }) => {
-  return (
-    <div style={{ color: "white" }}>
-      <div>
-        <h4 style={{ display: "inline-block" }}>Tüm Film ve Diziler</h4>
-        <Badge variant="primary" style={{ margin: "10px", float: "10px" }}>Trend</Badge>{' '}
-      </div>
+class AllFilms extends Component {
+  state = {
+    films: [],
+  };
 
-      {all_films.map((film) => (
-        <div key={film.id} style={{ margin: "10px" }}>
+  componentDidMount() {
+    fetch("film/all")
+      .then((res) => res.json())
+      .then((data) => {
+        this.setState({ films: data });
+        console.log(data);
+      })
+      .catch(console.log);
+  }
 
-          <Card style={{ backgroundColor: "#282828", width: "50rem", padding: "10px" }}>
-            <Row>
 
-              <Col className="col-md-3" style={{ display: 'flex', justifyContent: 'center' }}>
-              <Card.Img  src = {film.image_file} style={{width: "10rem", height: "15rem",
-              boxShadow: "2px 2px 2px darkslategray", borderBottom: "solid steelblue 7px", borderRight: "solid steelblue 7px", borderRadius:"4px", margin: "10px" }} />
-              </Col>
-
-              <Col style={{ display: 'flex', justifyContent: 'left' }}>
-
-                <Card.Body>
-                  <Card.Title style={{ color: "white", display: "inline-block", fontWeight: "bold", fontSize: "1.4rem" }}> {film.name} </Card.Title>
-                  <Card.Text style={{ display: "inline-block", float: "right", fontWeight: "bold", fontSize: "1.4rem" }}>
-                    <Badge style={{ color: "#FFFFFF", backgroundColor: setBorderColor((film.vote_sum / film.vote_count).toFixed(1)) }}>
-                      {(film.vote_sum / film.vote_count).toFixed(1)}
-                    </Badge>{' '}
-                  </Card.Text>
-
-                  <Card.Text > {setType(film.filmtype)} </Card.Text>
-                  <div style={{ display: "flex" }}>
-                    <Button variant="primary" style={{ right: "1rem", position: "absolute", bottom: "0" }} className="btn btn-light">Değerlendirmeler</Button>
-                  </div>
-
-                </Card.Body>
-
-              </Col>
-            </Row>
-          </Card>
-
+  render() {
+    return (
+      <div style={{ color: "white" }}>
+        <div>
+          <h4 style={{ display: "inline-block" }}>Tüm Film ve Diziler</h4>
+          <Badge variant="primary" style={{ margin: "10px", float: "10px" }}>
+            Trend
+          </Badge>{" "}
         </div>
-      ))
-      }
-    </div >
-  )
-};
 
-function setBorderColor(rating){
-  if (rating > 4){
+        {this.state.films.map((film) => (
+          <div key={film.id} style={{ margin: "10px" }}>
+            <Card
+              style={{
+                backgroundColor: "#282828",
+                width: "50rem",
+                padding: "10px",
+              }}
+            >
+              <Row>
+                <Col
+                  className="col-md-3"
+                  style={{ display: "flex", justifyContent: "center" }}
+                >
+                  <Card.Img
+                    src={film.image_file}
+                    style={{
+                      width: "10rem",
+                      height: "15rem",
+                      boxShadow: "2px 2px 2px darkslategray",
+                      borderBottom: "solid steelblue 7px",
+                      borderRight: "solid steelblue 7px",
+                      borderRadius: "4px",
+                      margin: "10px",
+                    }}
+                  />
+                </Col>
+
+                <Col style={{ display: "flex", justifyContent: "left" }}>
+                  <Card.Body>
+                    <Card.Title
+                      style={{
+                        color: "white",
+                        display: "inline-block",
+                        fontWeight: "bold",
+                        fontSize: "1.4rem",
+                      }}
+                    >
+                      {" "}
+                      {film.name}{" "}
+                    </Card.Title>
+                    <Card.Text
+                      style={{
+                        display: "inline-block",
+                        float: "right",
+                        fontWeight: "bold",
+                        fontSize: "1.4rem",
+                      }}
+                    >
+                      <Badge
+                        style={{
+                          color: "#FFFFFF",
+                          backgroundColor: setBorderColor(
+                            (film.vote_sum / film.vote_count).toFixed(1)
+                          ),
+                        }}
+                      >
+                        {(film.vote_sum / film.vote_count).toFixed(1)}
+                      </Badge>{" "}
+                    </Card.Text>
+
+                    <Card.Text> {setType(film.filmtype)} </Card.Text>
+                    <div style={{ display: "flex" }}>
+                      <Button
+                        variant="primary"
+                        style={{
+                          right: "1rem",
+                          position: "absolute",
+                          bottom: "0",
+                        }}
+                        className="btn btn-light"
+                      >
+                        Değerlendirmeler
+                      </Button>
+                    </div>
+                  </Card.Body>
+                </Col>
+              </Row>
+            </Card>
+          </div>
+        ))}
+      </div>
+    );
+  }
+}
+
+function setBorderColor(rating) {
+  if (rating > 4) {
     return "SeaGreen";
-  } else if (rating > 3){
-      return "LimeGreen";
-  } else if (rating > 2){
-      return "Gold";
-  } else if (rating>1) {
-      return "DarkOrange";
+  } else if (rating > 3) {
+    return "LimeGreen";
+  } else if (rating > 2) {
+    return "Gold";
+  } else if (rating > 1) {
+    return "DarkOrange";
   } else {
     return "FireBrick";
   }
 }
 
-function setType(tip){
-  if (tip === "Movie"){
+function setType(tip) {
+  if (tip === "Movie") {
     return "Film";
   } else {
     return "Dizi";
