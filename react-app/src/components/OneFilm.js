@@ -7,49 +7,178 @@ import Col from "react-bootstrap/Col";
 import Card from "react-bootstrap/Card";
 import Button from "react-bootstrap/Button";
 import Badge from "react-bootstrap/Badge";
+import Alert from "react-bootstrap/Alert";
+import Form from "react-bootstrap/Form";
 import "./site.css";
 
-class OneFilm extends Component {
+import { useAuth, authFetch } from "../auth";
+
+function hookWrapper(Component) {
+  return function WrappedComponent(props) {
+    const [logged] = useAuth();
+    return <Component {...props} isLogged={logged} />;
+  };
+}
+
+// Değerlendirmenin yazıldığı form
+class ReviewForm extends Component {
   constructor(props) {
     super(props);
-    this.state = { film: {} , color: ["gray","gray","gray","gray","gray"]};
+    this.state = {
+      color: ["gray", "gray", "gray", "gray", "gray"],
+      review: "",
+      score: 0,
+    };
   }
 
   changeColor1 = (e) => {
-    //burada veritabanında bu filmin vote-countu 1 artar
     //votesum ise 5 artar
     this.setState({
-      color: ["seagreen","seagreen","seagreen","seagreen","seagreen"]
-    })
-  }
+      color: ["limegreen", "limegreen", "limegreen", "limegreen", "limegreen"],
+      score: 5,
+    });
+  };
 
   changeColor2 = (e) => {
-    //burada veritabanında bu filmin vote-countu 1 artar
     //votesum ise 4 artar
     this.setState({
-      color: ["gray","limegreen","limegreen","limegreen","limegreen"]
-    })
-  }
+      color: ["gray", "limegreen", "limegreen", "limegreen", "limegreen"],
+      score: 4,
+    });
+  };
   changeColor3 = (e) => {
-    //burada veritabanında bu filmin vote-countu 1 artar
     //votesum ise 3 artar
     this.setState({
-      color: ["gray","gray","gold","gold","gold"]
-    })
-  }
+      color: ["gray", "gray", "gold", "gold", "gold"],
+      score: 3,
+    });
+  };
   changeColor4 = (e) => {
-    //burada veritabanında bu filmin vote-countu 1 artar
     //votesum ise 2 artar
     this.setState({
-      color: ["gray","gray","gray","darkorange","darkorange"]
-    })
-  }
+      color: ["gray", "gray", "gray", "darkorange", "darkorange"],
+      score: 2,
+    });
+  };
   changeColor5 = (e) => {
     //burada veritabanında bu filmin vote-countu 1 artar
     //votesum ise 1 artar
     this.setState({
-      color: ["gray","gray","gray","gray","fireBrick"]
-    })
+      color: ["gray", "gray", "gray", "gray", "fireBrick"],
+      score: 1,
+    });
+  };
+
+  handleSubmit = (event) => {
+    const sendingjson = JSON.stringify({
+      review: this.state.review,
+      score: this.state.score,
+      film_id: this.props.filmId
+    });
+    console.log("A form was submitted: " + sendingjson);
+
+    authFetch("/addreview", {
+      method: "POST",
+      // We convert the React state to JSON and send it as the POST body
+      body: sendingjson,
+    }).then(function (response) {
+      console.log(response);
+      return response.json();
+    });
+
+    event.preventDefault();
+  };
+
+  reviewHandleChange = (event) => {
+    this.setState({ review: event.target.value });
+  };
+
+  render() {
+    return (
+      <div className="form-group">
+        <Form onSubmit={this.handleSubmit}>
+          <Form.Group controlId="exampleForm.ControlTextarea1">
+            <Form.Control
+              rows={3}
+              type="text"
+              as="textarea"
+              placeholder="Bu eser için değerlendime yazın"
+              value={this.state.review}
+              onChange={this.reviewHandleChange}
+              style={{
+                backgroundColor: "#282828",
+                border: "none",
+                boxShadow: "2px 2px 2px darkslategray",
+                borderLeft: "solid steelblue 4px",
+                borderRight: "solid steelblue 4px",
+                borderRadius: "4px",
+                color: "whitesmoke",
+                width: "45rem",
+              }}
+            />
+          </Form.Group>
+
+          <Button
+            as="input"
+            type="submit"
+            value="Gönder"
+            style={{
+              backgroundColor: "steelblue",
+              boxShadow: "2px 2px 5px gray",
+              borderRadius: "7px",
+              margin: "5px",
+              color: "white",
+              border: "none",
+            }}
+          />
+        </Form>
+
+        <button className="yildiz" onClick={this.changeColor1}>
+          <i style={{ color: this.state.color[0] }} className="material-icons">
+            grade
+          </i>
+        </button>
+        <button className="yildiz" onClick={this.changeColor2}>
+          <i style={{ color: this.state.color[1] }} className="material-icons">
+            grade
+          </i>
+        </button>
+        <button className="yildiz" onClick={this.changeColor3}>
+          <i style={{ color: this.state.color[2] }} className="material-icons">
+            grade
+          </i>
+        </button>
+        <button className="yildiz" onClick={this.changeColor4}>
+          <i style={{ color: this.state.color[3] }} className="material-icons">
+            grade
+          </i>
+        </button>
+        <button className="yildiz" onClick={this.changeColor5}>
+          <i style={{ color: this.state.color[4] }} className="material-icons">
+            grade
+          </i>
+        </button>
+      </div>
+    );
+  }
+}
+
+function WriteReview({ isUserLogged, filmdID }) {
+  if (isUserLogged) {
+    return <ReviewForm filmId={filmdID} />;
+  } else {
+    return (
+      <Alert variant="warning">
+        Değerlendirme yapmak için giriş yapmalısınız.
+      </Alert>
+    );
+  }
+}
+
+class OneFilm extends Component {
+  constructor(props) {
+    super(props);
+    this.state = { film: {} };
   }
 
   componentDidMount() {
@@ -62,14 +191,11 @@ class OneFilm extends Component {
       .catch(console.log);
   }
 
-  
-
-
   render() {
     var film = this.state.film;
     return (
       <div>
-        <h1>Hello, Film: {film.name}</h1>
+        <h1>{film.name}</h1>
 
         <Card
           style={{
@@ -120,54 +246,46 @@ class OneFilm extends Component {
                 </Card.Text>
 
                 <Card.Text> {setType(film.filmtype)} </Card.Text>
-                
               </Card.Body>
             </Col>
           </Row>
         </Card>
-        <div class="form-group">
-          <label for="yorum" style={{fontSize: "24px"}}>Yorum Yazın</label>
-          <textarea class="form-control" id="yorum" rows="3" style={{backgroundColor: "#282828", 
-          border: "none", boxShadow: "2px 2px 2px darkslategray", 
-          borderLeft: "solid steelblue 4px", borderRight: "solid steelblue 4px", borderRadius:"4px", color:"whitesmoke"}}></textarea>
-          <Button as="input" type="submit" value="Gönder" style={{backgroundColor: "steelblue", 
-          boxShadow: "2px 2px 5px gray", 
-          borderRadius: "7px",margin: "5px", color: "white", border: "none"}}/>
-          <button className="yildiz" onClick={this.changeColor1}><i style={{color:this.state.color[0]}} class="material-icons">grade</i></button> 
-          <button className="yildiz" onClick={this.changeColor2}><i style={{color:this.state.color[1]}}class="material-icons">grade</i></button> 
-          <button className="yildiz" onClick={this.changeColor3}><i style={{color:this.state.color[2]}} class="material-icons">grade</i></button> 
-          <button className="yildiz" onClick={this.changeColor4}><i style={{color:this.state.color[3]}} class="material-icons">grade</i></button> 
-          <button className="yildiz" onClick={this.changeColor5}><i style={{color:this.state.color[4]}} class="material-icons">grade</i></button> 
-         </div>
-         
 
+        <Card
+          style={{
+            backgroundColor: "#282828",
+            padding: "10px",
+          }}
+        >
+          <Row className="d-flex justify-content-lg-center">
+            <WriteReview isUserLogged={this.props.isLogged} filmdID={this.props.id}/>
+          </Row>
+        </Card>
       </div>
     );
   }
 }
 
-
-
-function setBorderColor(rating){
-    if (rating > 4){
-      return "SeaGreen";
-    } else if (rating > 3){
-        return "LimeGreen";
-    } else if (rating > 2){
-        return "Gold";
-    } else if (rating>1) {
-        return "DarkOrange";
-    } else {
-      return "FireBrick";
-    }
+function setBorderColor(rating) {
+  if (rating > 4) {
+    return "SeaGreen";
+  } else if (rating > 3) {
+    return "LimeGreen";
+  } else if (rating > 2) {
+    return "Gold";
+  } else if (rating > 1) {
+    return "DarkOrange";
+  } else {
+    return "FireBrick";
   }
-  
-  function setType(tip){
-    if (tip === "Movie"){
-      return "Film";
-    } else {
-      return "Dizi";
-    }
-  }
+}
 
-export default OneFilm;
+function setType(tip) {
+  if (tip === "Movie") {
+    return "Film";
+  } else {
+    return "Dizi";
+  }
+}
+
+export default hookWrapper(OneFilm);

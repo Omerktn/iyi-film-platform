@@ -53,18 +53,21 @@ def review_by_filmid():
     return jsonify([])
 
 @app.route("/addreview", methods=['POST'])
+@flask_praetorian.auth_required
 def add_review():
-    data = request.get_json()
-    
+    data = request.get_json(force=True)
+
     current_user_id = flask_praetorian.current_user().id
+    print("İste id:{}".format(current_user_id))
 
     review = Review(id=random.getrandbits(32), user_id=int(current_user_id), 
-                    film_id=int(data["film_id"]), text=data["text"], rate=int(data["rate"]))
+                    film_id=int(data["film_id"]), text=data["review"],
+                    rate=int(data["score"]))
 
     db.session.add(review)
     db.session.commit()
 
-    print("New review added.")
+    print("New review added. film_id:{}".format(data["film_id"]))
     return "OK"
 
 

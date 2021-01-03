@@ -1,8 +1,13 @@
 import React, { Component } from "react";
-import { BrowserRouter as Router, Switch, Route, useParams} from "react-router-dom";
+import {
+  BrowserRouter as Router,
+  Switch,
+  Route,
+  useParams,
+} from "react-router-dom";
 import "./App.css";
 
-import {login} from "./auth"
+import { login } from "./auth";
 
 import LastFilms from "./components/LastFilms";
 import AllFilms from "./components/AllFilms";
@@ -10,12 +15,10 @@ import OneFilm from "./components/OneFilm";
 import Register from "./components/Register";
 import Login from "./components/Login";
 
-
 import NavBar from "./components/NavBar";
 import Footer from "./components/Footer";
 
 class App extends Component {
-
   render() {
     return (
       <Router>
@@ -69,20 +72,18 @@ class App extends Component {
                   display: "flex",
                   justifyContent: "center",
                   padding: "20px",
-                  color: "white"
+                  color: "white",
                 }}
               >
-                <GetOneFilm /> 
+                <GetOneFilm />
               </div>
             </Route>
-
 
             <Route path="/">
               <div
                 style={{
                   display: "flex",
                   justifyContent: "center",
-                  padding: "20px",
                 }}
               >
                 <LastFilms />
@@ -99,7 +100,7 @@ class App extends Component {
 
 function GetOneFilm() {
   let { filmId } = useParams();
-  return <OneFilm id={filmId} />
+  return <OneFilm id={filmId} />;
 }
 
 export default App;
