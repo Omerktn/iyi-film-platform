@@ -178,7 +178,7 @@ function WriteReview({ isUserLogged, filmdID }) {
 class OneFilm extends Component {
   constructor(props) {
     super(props);
-    this.state = { film: {} };
+    this.state = { film: {}, yorumlar: [] };
   }
 
   componentDidMount() {
@@ -189,10 +189,21 @@ class OneFilm extends Component {
         console.log(data);
       })
       .catch(console.log);
+
+      //veritabanından review çekiyor
+
+      fetch("../review/?film_id=" + this.props.id)
+      .then((res) => res.json())
+      .then((data) => {
+        console.log("burada yorumlar olmalı: " + data);
+        this.setState({ yorumlar: data });
+      })
+      .catch(console.log);
   }
 
   render() {
     var film = this.state.film;
+    var yorumlar=this.state.yorumlar;
     return (
       <div>
         <h1>{film.name}</h1>
@@ -250,6 +261,26 @@ class OneFilm extends Component {
             </Col>
           </Row>
         </Card>
+           {         
+           //yeni eklediğim yer aşağıdaki div
+           }
+
+        <div>
+         
+         {yorumlar.map((x, i) => <Card style={{borderLeft:"double steelblue 9px", backgroundColor:"#282828", marginTop: "15px", padding: "10px"}} key={i}>
+
+           <Card.Body>
+             <Card.Text style={{fontSize:"24px"}}>{x.text} <Badge style={{float: "right", backgroundColor: "gray", opacity: 0.7}}>{x.rate}</Badge></Card.Text>
+           </Card.Body>
+
+           <Card.Footer>
+             <Card.Text style={{textAlign: "right", fontStyle: "italic"}} >{x.user_id}</Card.Text>
+           </Card.Footer>
+
+           </Card> )}
+       
+         
+       </div>
 
         <Card
           style={{
