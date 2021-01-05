@@ -70,6 +70,25 @@ def add_review():
     print("New review added. film_id:{}".format(data["film_id"]))
     return "OK"
 
+@app.route("/searchfilm/", methods=['GET', 'POST'])
+def search():
+    # GET request
+    if "query" in request.args:
+        query = str(request.args["query"]).lower()
+    else:
+        return "Error: No query field provided. Please specify an query."
+
+    print("Query geldi:", query)
+    results = []
+
+    films = Film.query.all()
+    for film in films:
+        if query in film.name.lower():
+            results.append(film)
+    
+    if results:
+        return jsonify(Serializer.serialize_list(results))
+    return jsonify([])
 
 @app.route('/api/login', methods=['POST'])
 def login():

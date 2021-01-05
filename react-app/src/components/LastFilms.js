@@ -99,7 +99,7 @@ class LastFilms extends Component {
                       </Badge>{" "}
                     </Card.Text>
                     <a href={"/film/" + film.id}>
-                      <img src="baseline_mode_comment_white_24dp.png" />
+                      <img src="baseline_mode_comment_white_24dp.png"  alt=""/>
                     </a>
                   </div>
                 </Card.Body>

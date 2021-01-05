@@ -7,13 +7,12 @@ import {
 } from "react-router-dom";
 import "./App.css";
 
-import { login } from "./auth";
-
 import LastFilms from "./components/LastFilms";
 import AllFilms from "./components/AllFilms";
 import OneFilm from "./components/OneFilm";
 import Register from "./components/Register";
 import Login from "./components/Login";
+import Search from "./components/Search";
 
 import NavBar from "./components/NavBar";
 import Footer from "./components/Footer";
@@ -66,6 +65,18 @@ class App extends Component {
               </div>
             </Route>
 
+            <Route path="/searchfilm/:query">
+              <div
+                style={{
+                  display: "flex",
+                  justifyContent: "center",
+                  padding: "20px",
+                }}
+              >
+                <GetFilmSearch />
+              </div>
+            </Route>
+
             <Route path="/film/:filmId">
               <div
                 style={{
@@ -101,6 +112,11 @@ class App extends Component {
 function GetOneFilm() {
   let { filmId } = useParams();
   return <OneFilm id={filmId} />;
+}
+
+function GetFilmSearch() {
+  let { query } = useParams();
+  return <Search query={query} />;
 }
 
 export default App;

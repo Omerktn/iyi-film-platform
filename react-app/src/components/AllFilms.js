@@ -6,7 +6,6 @@ import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
 import Badge from "react-bootstrap/Badge";
 import Pagination from 'react-bootstrap/Pagination'
-import PageItem from 'react-bootstrap/PageItem'
 
 //import Pagination from "react-js-pagination";
 //require("bootstrap/less/bootstrap.less");
@@ -30,10 +29,6 @@ class AllFilms extends Component {
       .catch(console.log);
   }
 
-  
-
-
-
 
   render() {
     const indexOfLastFilm = this.state.currentPage * this.state.itemPerPage;
@@ -41,12 +36,12 @@ class AllFilms extends Component {
     var sortType = this.state.sortType;
     this.state.films.sort(function (a,b){
       if((a.vote_sum / a.vote_count).toFixed(1) < (b.vote_sum / b.vote_count).toFixed(1) ){
-        if(sortType == 0){
+        if(sortType === 0){
           return -1;
         } else {return 1;}
       }
       if((a.vote_sum / a.vote_count).toFixed(1) > (b.vote_sum / b.vote_count).toFixed(1) ){
-        if(sortType==0){
+        if(sortType === 0){
           return 1;
         }
         else{return -1;}

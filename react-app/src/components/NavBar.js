@@ -1,4 +1,4 @@
-import React, { Component } from "react";
+import React from "react";
 import Nav from "react-bootstrap/Nav";
 import Navbar from "react-bootstrap/Navbar";
 import Form from "react-bootstrap/Form";
@@ -6,6 +6,8 @@ import Button from "react-bootstrap/Button";
 import FormControl from "react-bootstrap/FormControl";
 
 import { useAuth, logout } from "../auth";
+
+import { withRouter } from 'react-router';
 
 
 function LogButtons({ isLogged }) {
@@ -49,9 +51,25 @@ function hookWrapper(Component) {
 }
 
 class NavigationBar extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      query: "",
+    };
+  }
+
+  handleSubmit = (event) => {
+    this.props.history.push('/searchfilm/' + this.state.query);
+  };
+
+  searchValueChange = (event) => {
+    this.setState({ query: event.target.value });
+  };
+
   render() {
     const isLogged = this.props.isLogged;
     console.log(isLogged);
+
     return (
       <div style={{ color: "white" }}>
         <Navbar bg="dark" variant="dark">
@@ -71,11 +89,13 @@ class NavigationBar extends React.Component {
           </Nav>
           <LogButtons isLogged={isLogged}/>
 
-          <Form inline>
+          <Form inline onSubmit={this.handleSubmit}>
             <FormControl
               type="text"
               placeholder="Film veya dizi"
               className="mr-sm-2"
+              value={this.state.query}
+              onChange={this.searchValueChange}
             />
             <Button variant="outline-info">Ara</Button>
           </Form>
@@ -87,4 +107,4 @@ class NavigationBar extends React.Component {
 
 
 //export default NavigationBar;
-export default hookWrapper(NavigationBar);
+export default withRouter(hookWrapper(NavigationBar));
