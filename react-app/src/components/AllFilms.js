@@ -17,6 +17,7 @@ class AllFilms extends Component {
     pageNumbers: [],
     currentPage: 1,
     itemPerPage: 10,
+    sortType: 1
   };
 
   componentDidMount() {
@@ -37,11 +38,24 @@ class AllFilms extends Component {
   render() {
     const indexOfLastFilm = this.state.currentPage * this.state.itemPerPage;
     const indexOfFirstFilm = indexOfLastFilm - this.state.itemPerPage;
+    var sortType = this.state.sortType;
+    this.state.films.sort(function (a,b){
+      if((a.vote_sum / a.vote_count).toFixed(1) < (b.vote_sum / b.vote_count).toFixed(1) ){
+        if(sortType == 0){
+          return -1;
+        } else {return 1;}
+      }
+      if((a.vote_sum / a.vote_count).toFixed(1) > (b.vote_sum / b.vote_count).toFixed(1) ){
+        if(sortType==0){
+          return 1;
+        }
+        else{return -1;}
+      }
+      return 0;
+    });
     const currentFilms = this.state.films.slice(indexOfFirstFilm, indexOfLastFilm);
 
     const pageNumbers = [];
-
-    
 
     for (let number = 1; number <= Math.ceil(this.state.films.length/this.state.itemPerPage); number++) {
       pageNumbers.push(
@@ -62,12 +76,15 @@ class AllFilms extends Component {
 
 
         <Pagination size="sm" style={{backgorundColor: "steelblue"}}>
-          <Pagination.First />
-          <Pagination.Prev />
+          <Pagination.First onClick= {() => this.setState({currentPage: 1})} />
+          <Pagination.Prev onClick= {() => (this.state.currentPage === 1)?this.setState({currentPage: 1}): this.setState({currentPage: this.state.currentPage-1})} />
           {pageNumbers}
-          <Pagination.Next />
-          <Pagination.Last />
+          <Pagination.Next onClick= {() => (this.state.currentPage === Math.ceil(this.state.films.length/this.state.itemPerPage))?this.setState({currentPage: Math.ceil(this.state.films.length/this.state.itemPerPage)}): this.setState({currentPage: this.state.currentPage+1})} />
+          <Pagination.Last onClick= {() => this.setState({currentPage: Math.ceil(this.state.films.length/this.state.itemPerPage)})}/>
         </Pagination>
+
+        <Button style={{backgroundColor:"#282828", margin: "5px", border: "steelBlue solid 2px"}} onClick= {() => this.setState({sortType:1})}>Artan</Button>
+        <Button style={{backgroundColor:"#282828", margin: "5px", border: "steelBlue solid 2px"}} onClick= {() => this.setState({sortType:0})}>Azalan</Button>
 
        
         {currentFilms.map((film) => (
