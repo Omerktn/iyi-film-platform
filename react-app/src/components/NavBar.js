@@ -7,16 +7,25 @@ import FormControl from "react-bootstrap/FormControl";
 
 import { useAuth, logout } from "../auth";
 
-import { withRouter } from 'react-router';
-
+import { withRouter } from "react-router";
 
 function LogButtons({ isLogged }) {
   if (isLogged) {
     return (
       <div>
-        <Nav.Link onClick={() => logout()} style={{ margin: "5px" }}>
-          Çıkış Yap
-        </Nav.Link>
+          <Nav.Link
+            onClick={() => logout()}
+            style={{
+              backgroundColor: "steelblue",
+              boxShadow:
+                "0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19)",
+              borderRadius: "7px",
+              margin: "5px",
+              color: "white",
+            }}
+          >
+            Çıkış Yap
+          </Nav.Link>
       </div>
     );
   } else {
@@ -38,7 +47,7 @@ function LogButtons({ isLogged }) {
         >
           Giriş Yap
         </Nav.Link>
-        </Nav>
+      </Nav>
     );
   }
 }
@@ -59,7 +68,7 @@ class NavigationBar extends React.Component {
   }
 
   handleSubmit = (event) => {
-    this.props.history.push('/searchfilm/' + this.state.query);
+    this.props.history.push("/searchfilm/" + this.state.query);
   };
 
   searchValueChange = (event) => {
@@ -87,7 +96,7 @@ class NavigationBar extends React.Component {
             <Nav.Link href="/">Anasayfa</Nav.Link>
             <Nav.Link href="/allfilms">Tüm Değerlendirmeler </Nav.Link>
           </Nav>
-          <LogButtons isLogged={isLogged}/>
+          <LogButtons isLogged={isLogged} />
 
           <Form inline onSubmit={this.handleSubmit}>
             <FormControl
@@ -97,14 +106,13 @@ class NavigationBar extends React.Component {
               value={this.state.query}
               onChange={this.searchValueChange}
             />
-            <Button variant="outline-info">Ara</Button>
+            <Button onClick={this.handleSubmit} variant="outline-info">Ara</Button>
           </Form>
         </Navbar>
       </div>
     );
   }
 }
-
 
 //export default NavigationBar;
 export default withRouter(hookWrapper(NavigationBar));
