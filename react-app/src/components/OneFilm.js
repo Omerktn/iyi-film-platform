@@ -73,7 +73,7 @@ class ReviewForm extends Component {
     const sendingjson = JSON.stringify({
       review: this.state.review,
       score: this.state.score,
-      film_id: this.props.filmId
+      film_id: this.props.filmId,
     });
     console.log("A form was submitted: " + sendingjson);
 
@@ -87,6 +87,7 @@ class ReviewForm extends Component {
     });
 
     event.preventDefault();
+    window.location.reload();
   };
 
   reviewHandleChange = (event) => {
@@ -190,9 +191,9 @@ class OneFilm extends Component {
       })
       .catch(console.log);
 
-      //veritabanından review çekiyor
+    //veritabanından review çekiyor
 
-      fetch("../review/?film_id=" + this.props.id)
+    fetch("../review/?film_id=" + this.props.id)
       .then((res) => res.json())
       .then((data) => {
         console.log("burada yorumlar olmalı: " + data);
@@ -203,7 +204,7 @@ class OneFilm extends Component {
 
   render() {
     var film = this.state.film;
-    var yorumlar=this.state.yorumlar;
+    var yorumlar = this.state.yorumlar;
     return (
       <div>
         <h1>{film.name}</h1>
@@ -221,17 +222,17 @@ class OneFilm extends Component {
               style={{ display: "flex", justifyContent: "center" }}
             >
               <Card.Img
-                    src={"/" + film.image_file}
-                    style={{
-                      width: "10rem",
-                      height: "15rem",
-                      boxShadow: "2px 2px 2px darkslategray",
-                      borderBottom: "solid steelblue 7px",
-                      borderRight: "solid steelblue 7px",
-                      borderRadius: "4px",
-                      margin: "10px",
-                    }}
-                  />
+                src={"/" + film.image_file}
+                style={{
+                  width: "10rem",
+                  height: "15rem",
+                  boxShadow: "2px 2px 2px darkslategray",
+                  borderBottom: "solid steelblue 7px",
+                  borderRight: "solid steelblue 7px",
+                  borderRadius: "4px",
+                  margin: "10px",
+                }}
+              />
             </Col>
 
             <Col style={{ display: "flex", justifyContent: "left" }}>
@@ -272,37 +273,62 @@ class OneFilm extends Component {
             </Col>
           </Row>
         </Card>
-           {         
-           //yeni eklediğim yer aşağıdaki div
-           }
+        {
+          //yeni eklediğim yer aşağıdaki div
+        }
+        <div style={{ padding: "10px" }}>
+          <Card
+            style={{
+              backgroundColor: "#282828",
+              padding: "10px",
+            }}
+          >
+            <Row className="d-flex justify-content-lg-center">
+              <WriteReview
+                isUserLogged={this.props.isLogged}
+                filmdID={this.props.id}
+              />
+            </Row>
+          </Card>
+        </div>
 
         <div>
-         
-         {yorumlar.map((x, i) => <Card style={{borderLeft:"double steelblue 9px", backgroundColor:"#282828", marginTop: "15px", padding: "10px"}} key={i}>
+          {yorumlar.map((x, i) => (
+            <div key={i} style={{ padding: "10px" }}>
+              <Card
+                style={{
+                  borderLeft: "double steelblue 9px",
+                  backgroundColor: "#282828",
+                  marginTop: "15px",
+                  padding: "10px",
+                }}
+              >
+                <Card.Body>
+                  <Card.Text style={{ fontSize: "24px" }}>
+                    {x.text}{" "}
+                    <Badge
+                      style={{
+                        float: "right",
+                        backgroundColor: "gray",
+                        opacity: 0.7,
+                      }}
+                    >
+                      {x.rate}
+                    </Badge>
+                  </Card.Text>
+                </Card.Body>
 
-           <Card.Body>
-             <Card.Text style={{fontSize:"24px"}}>{x.text} <Badge style={{float: "right", backgroundColor: "gray", opacity: 0.7}}>{x.rate}</Badge></Card.Text>
-           </Card.Body>
-
-           <Card.Footer>
-             <Card.Text style={{textAlign: "right", fontStyle: "italic"}} >{x.user_id}</Card.Text>
-           </Card.Footer>
-
-           </Card> )}
-       
-         
-       </div>
-
-        <Card
-          style={{
-            backgroundColor: "#282828",
-            padding: "10px",
-          }}
-        >
-          <Row className="d-flex justify-content-lg-center">
-            <WriteReview isUserLogged={this.props.isLogged} filmdID={this.props.id}/>
-          </Row>
-        </Card>
+                <Card.Footer>
+                  <Card.Text
+                    style={{ textAlign: "right", fontStyle: "italic" }}
+                  >
+                    {x.user_name} {x.user_surname}
+                  </Card.Text>
+                </Card.Footer>
+              </Card>{" "}
+            </div>
+          ))}
+        </div>
       </div>
     );
   }

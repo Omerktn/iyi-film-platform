@@ -5,6 +5,8 @@ import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
 import Card from "react-bootstrap/Card";
 
+import { withRouter } from 'react-router';
+
 class Register extends Component {
   constructor(props) {
     super(props);
@@ -41,6 +43,8 @@ class Register extends Component {
     });
 
     event.preventDefault();
+
+    this.props.history.push('/');
   };
 
 
@@ -109,4 +113,4 @@ class Register extends Component {
   }
 }
 
-export default Register;
+export default withRouter(Register);

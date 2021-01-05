@@ -46,10 +46,21 @@ def review_by_filmid():
         return "Error: No film_id field provided. Please specify an id."
 
     review = Review.query.filter_by(film_id=film_id)
+    
 
     print(review)
     if review:
-        return jsonify(Serializer.serialize_list(review))
+        review_list = Serializer.serialize_list(review)
+        print(review_list)
+
+        for i in range(len(review_list)):
+            user = User.query.filter_by(id=review_list[i]['user_id']).first()
+            review_list[i]["user_name"] = user.name
+            review_list[i]["user_surname"] = user.surname
+
+        print(review_list)
+
+        return jsonify(review_list)
     return jsonify([])
 
 @app.route("/addreview", methods=['POST'])
