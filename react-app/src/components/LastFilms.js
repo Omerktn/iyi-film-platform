@@ -35,7 +35,7 @@ class LastFilms extends Component {
           </h4>
         </div>
 
-        {this.state.films.map((film) => (
+        {this.state.films.slice(this.state.films.length-5,this.state.films.length-1).map((film) => (
           <div key={film.id} style={{ margin: "10px", float: "right" }}>
             <Card
               style={{
@@ -46,7 +46,7 @@ class LastFilms extends Component {
               }}
             >
               <Row className="row-md-3" style={{ display: "block" }}>
-                <div>
+                <div><a href={"/film/" + film.id}>
                   <Card.Img
                     className="filmPoster"
                     src={film.image_file}
@@ -59,7 +59,7 @@ class LastFilms extends Component {
                       borderRadius: "4px",
                     }}
                   />
-                </div>
+                </a></div>
               </Row>
 
               <Row style={{ display: "block" }}>

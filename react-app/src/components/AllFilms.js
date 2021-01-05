@@ -54,7 +54,7 @@ class AllFilms extends Component {
 
     for (let number = 1; number <= Math.ceil(this.state.films.length/this.state.itemPerPage); number++) {
       pageNumbers.push(
-        <Pagination.Item onClick= {() => this.setState({currentPage: number})} key={number} active={number === this.statecurrentPage}>
+        <Pagination.Item onClick= {() => this.setState({currentPage: number})} key={number} active={number === this.state.currentPage}>
           {number}
         </Pagination.Item>,
       );
@@ -96,6 +96,7 @@ class AllFilms extends Component {
                   className="col-md-3"
                   style={{ display: "flex", justifyContent: "center" }}
                 >
+                  <a href={"/film/" + film.id}>
                   <Card.Img
                     src={film.image_file}
                     style={{
@@ -108,10 +109,12 @@ class AllFilms extends Component {
                       margin: "10px",
                     }}
                   />
+                  </a>
                 </Col>
 
                 <Col style={{ display: "flex", justifyContent: "left" }}>
                   <Card.Body>
+                    <a href={"/film/" + film.id}>
                     <Card.Title
                       style={{
                         color: "white",
@@ -119,10 +122,11 @@ class AllFilms extends Component {
                         fontWeight: "bold",
                         fontSize: "1.4rem",
                       }}
-                    >
+                    > 
                       {" "}
                       {film.name}{" "}
                     </Card.Title>
+                    </a>
                     <Card.Text
                       style={{
                         display: "inline-block",
