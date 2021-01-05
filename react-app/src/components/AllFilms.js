@@ -157,6 +157,7 @@ class AllFilms extends Component {
                           bottom: "0",
                         }}
                         className="btn btn-light"
+                        href={"/film/" + film.id}
                       >
                         Değerlendirmeler
                       </Button>
