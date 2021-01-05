@@ -5,10 +5,18 @@ import Button from "react-bootstrap/Button";
 import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
 import Badge from "react-bootstrap/Badge";
+import Pagination from 'react-bootstrap/Pagination'
+import PageItem from 'react-bootstrap/PageItem'
+
+//import Pagination from "react-js-pagination";
+//require("bootstrap/less/bootstrap.less");
 
 class AllFilms extends Component {
   state = {
     films: [],
+    pageNumbers: [],
+    currentPage: 1,
+    itemPerPage: 10,
   };
 
   componentDidMount() {
@@ -21,8 +29,28 @@ class AllFilms extends Component {
       .catch(console.log);
   }
 
+  
+
+
+
 
   render() {
+    const indexOfLastFilm = this.state.currentPage * this.state.itemPerPage;
+    const indexOfFirstFilm = indexOfLastFilm - this.state.itemPerPage;
+    const currentFilms = this.state.films.slice(indexOfFirstFilm, indexOfLastFilm);
+
+    const pageNumbers = [];
+
+    
+
+    for (let number = 1; number <= Math.ceil(this.state.films.length/this.state.itemPerPage); number++) {
+      pageNumbers.push(
+        <Pagination.Item onClick= {() => this.setState({currentPage: number})} key={number} active={number === this.statecurrentPage}>
+          {number}
+        </Pagination.Item>,
+      );
+    }
+
     return (
       <div style={{ color: "white" }}>
         <div>
@@ -32,7 +60,17 @@ class AllFilms extends Component {
           </Badge>{" "}
         </div>
 
-        {this.state.films.map((film) => (
+
+        <Pagination size="sm" style={{backgorundColor: "steelblue"}}>
+          <Pagination.First />
+          <Pagination.Prev />
+          {pageNumbers}
+          <Pagination.Next />
+          <Pagination.Last />
+        </Pagination>
+
+       
+        {currentFilms.map((film) => (
           <div key={film.id} style={{ margin: "10px" }}>
             <Card
               style={{
@@ -111,7 +149,7 @@ class AllFilms extends Component {
                 </Col>
               </Row>
             </Card>
-          </div>
+          </div> 
         ))}
       </div>
     );
